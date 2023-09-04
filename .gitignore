@@ -37,3 +37,6 @@ next-env.d.ts
 #editor stuff
 .vscode
 .idea
+
+#turbo
+.turbo
