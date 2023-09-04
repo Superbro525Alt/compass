@@ -1,3 +1,3 @@
 export async function GET(request: Request) {
-  return new Response('[{name: "test_class"}]');
+  return new Response(JSON.stringify([{name: "test_class"}]));
 }

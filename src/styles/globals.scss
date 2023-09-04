@@ -1,0 +1,25 @@
+body {
+  background-color: #232728;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+.container {
+  padding: 1% 1%;
+  margin: auto auto;
+  background-color: #525050;
+  height: 95%;
+  width: 95%;
+  max-height: 95%;
+  max-width: 95%;
+  border-radius: 5px;
+}
+
+.app {
+  height: 100%;
+  display: flex;
+}
