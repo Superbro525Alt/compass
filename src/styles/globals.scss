@@ -18,6 +18,18 @@ html, body, #root {
   max-width: 100%;
   border-radius: 5px;
 
+  /* make spacing between child elements even
+   */
+
+
+
+}
+
+.nav-container {
+  display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .app {
@@ -49,4 +61,23 @@ html, body, #root {
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.nav-button {
+    width: 90%;
+    height: 5%;
+    background-color: #6b6a6a;
+    border-radius: 5px;
+    margin: 1% auto;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+  padding: 1% 1%;
+}
+
+.settings-button {
+  /* place at bottom of parent div */
+
 }
