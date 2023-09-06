@@ -8,6 +8,13 @@ import Image from 'next/image';
 
 import three_dots from "./images/three dots.png";
 
+type _assignment = {
+    name: string,
+    due: string,
+    type: string,
+    subject: string,
+    description: string
+};
 
 function Container(props: any) {
     return (
@@ -68,7 +75,7 @@ function Notice(props: any) {
 function Popup(props: any) {
     return (
         <div className="_popup">
-            <div className="popup">
+            <div className={"popup " + props.className}>
                 {props.children ? props.children.map((child: any) => (
                     <>
                         {child}
@@ -97,35 +104,89 @@ function OpenTab(tab: String) {
     }
 }
 
+function Assignment(props: any) {
+    return <>
+        <div className="assignment">
+            <div className="assignment-header">
+                <p>{props.name}</p>
+                <p>Due {new Date(props.due).toLocaleString()}</p>
+            </div>
+            <div className="assignment-body">
+                <p>{props.type}</p>
+                <p>{props.subject}</p>
+                {ReactHtmlParser(props.description)}
+            </div>
+        </div>
+    </>
+}
+
 export default function Home() {
 
   const [classes, setClasses] = useState([]);
   const [notices, setNotices] = useState([]);
   const [renderedNotices, setRenderedNotices] = useState([]);
+  const [generalAssignments, setGeneralAssignments] = useState([]);
+  const [assignmentAssignments, setAssignmentAssignments] = useState([]);
+  const [assessmentAssignments, setAssessmentAssignments] = useState([]);
+  const [practiseAssignments, setPractiseAssignments] = useState([]);
+
   const [loaded, setLoaded] = useState(false);
 
   const [canFetchNotices, setCanFetchNotices] = useState(true);
   const [canFetchClasses, setCanFetchClasses] = useState(true);
-  function ViewMoreNotices() {
-      setLoaded(true);
-      return (
-          <button className="view-more" onClick={(event) => {
-              event.preventDefault();
-              document.getElementById("notices_popup").style.display = "block";
-              console.log("clicked");
-          }}>
-              <p>View More</p>
-          </button>
+  const [canFetchAssignments, setCanFetchAssignments] = useState(true);
 
-      )
+  function getAssignments() {
+      if (canFetchAssignments) {
+          setCanFetchAssignments(false);
+          try {
+              fetch(window.location.href + "/api/assignments").then((res) => {
+                  if (res.status == 500) {
+                      console.log("error");
+                      return;
+                  }
+                  res.text().then((text) => {
+                      var tasks = JSON.parse(text);
+                      var _generalTasks = [];
+                      var _assignmentTasks = [];
+                      var _assesmentTasks = [];
+                      var _practiseTasks = [];
 
+                      for (var i = 0; i < tasks.length; i++) {
+                          if (tasks[i].categoryId == 5) {
+                                _assesmentTasks.push(tasks[i]);
+                          } else if (tasks[i].categoryId == 1) {
+                              _generalTasks.push(tasks[i]);
+                          } else if (tasks[i].categoryId == 3) {
+                                _assignmentTasks.push(tasks[i]);
+                          } else if (tasks[i].categoryId == 4) {
+                                _practiseTasks.push(tasks[i]);
+                          }
+                      }
+
+                      setGeneralAssignments(_generalTasks);
+                      setAssignmentAssignments(_assignmentTasks);
+                      setAssessmentAssignments(_assesmentTasks);
+                      setPractiseAssignments(_practiseTasks);
+
+
+                      setTimeout(() => {
+                          setCanFetchAssignments(true);
+                      }, 1000);
+                  });
+              });
+          } catch (e) {
+              e.preventDefault();
+              console.log(e);
+          }
+      }
   }
 
   function getClasses() {
       if (canFetchClasses) {
           setCanFetchClasses(false);
           try {
-              fetch("http://localhost:3000/api/classes").then((res) => {
+              fetch(window.location.href + "/api/classes").then((res) => {
                   if (res.status == 500) {
                       console.log("error");
                       return;
@@ -163,7 +224,7 @@ export default function Home() {
           setCanFetchNotices(false);
           try {
               console.log("fetching")
-              fetch("http://localhost:3000/api/notices").then((res) => {
+              fetch(window.location.href + "/api/notices").then((res) => {
                   if (res.status == 500) {
                       console.log("error");
                       return;
@@ -192,8 +253,11 @@ export default function Home() {
       }
   }
 
+
+
   getClasses();
   getNotices();
+  getAssignments();
 
   return (
     <div className="app">
@@ -208,12 +272,69 @@ export default function Home() {
                     {notices ? notices.map((key: object) => (<Notice contents={key.Content1} title={key.Title} key={key.Title}/>)) : <p>Loading...</p>}
                 </Popup>
             </div>
-            <div className="row">
+            <div id="_general_tasks" style={{display: "none"}}>
+                <Popup key="general_tasks" className="popup-vertical">
+                    {generalAssignments ? generalAssignments.map((key: object) => (<Assignment name={key.name} due={key.activityStart} type={"General"} subject={key.activityName} description={key.description}/>)) : <p>Loading...</p>}
+                </Popup>
+            </div>
+            <div id="_assignment_tasks" style={{display: "none"}}>
+                <Popup key="assignment_tasks" className="popup-vertical">
+                    {assignmentAssignments ? assignmentAssignments.map((key: object) => (<Assignment name={key.name} due={key.activityStart} type={"Assignment"} subject={key.activityName} description={key.description}/>)) : <p>Loading...</p>}
+                </Popup>
+            </div>
+            <div id="_assessment_tasks" style={{display: "none"}}>
+                <Popup key="assessment_tasks" className="popup-vertical">
+                    {assessmentAssignments ? assessmentAssignments.map((key: object) => (<Assignment name={key.name} due={key.activityStart} type={"Assesment"} subject={key.activityName} description={key.description}/>)) : <p>Loading...</p>}
+                </Popup>
+            </div>
+            <div id="_practise_tasks" style={{display: "none"}}>
+                <Popup key="practise_tasks" className="popup-vertical">
+                    {practiseAssignments ? practiseAssignments.map((key: object) => (<Assignment name={key.name} due={key.activityStart} type={"Practise"} subject={key.activityName} description={key.description}/>)) : <p>Loading...</p>}
+                </Popup>
+            </div>
+            <div className="top-row">
                 <Container width="70%" className="class-container" key="classes">
                     {classes ? classes.map((key: object) => (<Class name={key.longTitleWithoutTime} key={key.longTitleWithoutTime}/>)) : <p>Loading...</p>}
                 </Container>
-                <Container width="30%" key="assignments">
-                    {notices ? notices.map((key: object) => (<p>Assignments</p>)) : <p>Loading...</p>}
+                <Container width="30%" key="assignments" className="assignments">
+                    <div className="row-only">
+                        <button className="task-button" onClick={(event) => {
+                          event.preventDefault();
+                          document.getElementById("_general_tasks").style.display = "block";
+                          document.getElementById("_general_tasks").children[0].style.display = "block";
+                          console.log("clicked");
+                        }}>
+                            <p>General</p>
+                        </button>
+                        <button className="task-button" onClick={(event) => {
+                          event.preventDefault();
+                          document.getElementById("_assignment_tasks").style.display = "block";
+                          document.getElementById("_assignment_tasks").children[0].style.display = "block";
+                          console.log("clicked");
+                        }}>
+                            <p>Assignment</p>
+                        </button>
+                    </div>
+                    <div className="row-only">
+                        <button className="task-button" onClick={(event) => {
+                          event.preventDefault();
+                          document.getElementById("_assessment_tasks").style.display = "block";
+                          document.getElementById("_assessment_tasks").children[0].style.display = "block";
+
+                          console.log("clicked");
+                        }}>
+                            <p>Assessment</p>
+                        </button>
+                        <button className="task-button" onClick={(event) => {
+                          event.preventDefault();
+                          document.getElementById("_practise_tasks").style.display = "block";
+                          document.getElementById("_practise_tasks").children[0].style.display = "block";
+
+                          console.log("clicked");
+                        }}>
+                            <p>Practise Task</p>
+                        </button>
+                    </div>
                 </Container>
             </div>
             <div className="row-nospace">
