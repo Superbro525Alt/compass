@@ -104,7 +104,8 @@ export default function Home() {
   const [renderedNotices, setRenderedNotices] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
-
+  const [canFetchNotices, setCanFetchNotices] = useState(true);
+  const [canFetchClasses, setCanFetchClasses] = useState(true);
   function ViewMoreNotices() {
       setLoaded(true);
       return (
@@ -121,56 +122,73 @@ export default function Home() {
   }
 
   function getClasses() {
-      try {
-          fetch("http://localhost:3000/api/classes").then((res) => {
-              if (res.status == 500) {
-                  console.log("error");
-                  return;
-              }
-              res.text().then((text) => {
-                  let classes = JSON.parse(text);
-                  // sort bu time in key.finish
-                  classes.sort((a: any, b: any) => {
-                      if (a.finish > b.finish) {
-                          return 1;
-                      }
-                      if (a.finish < b.finish) {
-                          return -1;
-                      }
-                      return 0;
+      if (canFetchClasses) {
+          setCanFetchClasses(false);
+          try {
+              fetch("http://localhost:3000/api/classes").then((res) => {
+                  if (res.status == 500) {
+                      console.log("error");
+                      return;
+                  }
+                  res.text().then((text) => {
+                      let classes = JSON.parse(text);
+                      // sort bu time in key.finish
+                      classes.sort((a: any, b: any) => {
+                          if (a.finish > b.finish) {
+                              return 1;
+                          }
+                          if (a.finish < b.finish) {
+                              return -1;
+                          }
+                          return 0;
+                      });
+                      setClasses(classes);
+
+                      setTimeout(() => {
+                            setCanFetchClasses(true);
+                      }, 1000);
                   });
-                  setClasses(classes);
               });
-          });
-      } catch (e) {
-          console.log(e);
+          } catch (e) {
+              e.preventDefault();
+              console.log(e);
+          }
       }
   }
 
 
 
   function getNotices() {
-      try {
-          fetch("http://localhost:3000/api/notices").then((res) => {
-              if (res.status == 500) {
-                  console.log("error");
-                  return;
-              }
-              res.text().then((text) => {
-                  setNotices(JSON.parse(text));
-                  var _renderedNotices = [];
-                  for (var i = 0; i < JSON.parse(text).length; i++) {
-                      if (i == 3) {
-                          break;
-                      }
-                      _renderedNotices.push(JSON.parse(text)[i]);
+      if (canFetchNotices) {
+          setCanFetchNotices(false);
+          try {
+              console.log("fetching")
+              fetch("http://localhost:3000/api/notices").then((res) => {
+                  if (res.status == 500) {
+                      console.log("error");
+                      return;
                   }
+                  res.text().then((text) => {
+                      setNotices(JSON.parse(text));
+                      var _renderedNotices = [];
+                      for (var i = 0; i < JSON.parse(text).length; i++) {
+                          if (i == 3) {
+                              break;
+                          }
+                          _renderedNotices.push(JSON.parse(text)[i]);
+                      }
 
-                  setRenderedNotices(_renderedNotices);
+                      setRenderedNotices(_renderedNotices);
+
+                      setTimeout(() => {
+                            setCanFetchNotices(true);
+                      }, 1000);
+                  });
               });
-          });
-      } catch (e) {
-          console.log(e);
+          } catch (e) {
+              e.preventDefault();
+              console.log(e);
+          }
       }
   }
 
@@ -201,7 +219,14 @@ export default function Home() {
             <div className="row-nospace">
                 <Container className="notices-container" height="30%" key="notices">
                     {renderedNotices ? renderedNotices.map((key: object) => (<Notice contents={key.Content1} title={key.Title} key={key.Title}/>)) : <p>Loading...</p>}
-                    <ViewMoreNotices/>
+                    <button className="view-more" onClick={(event) => {
+                          event.preventDefault();
+                          document.getElementById("notices_popup").style.display = "block";
+                          document.getElementById("notices_popup").children[0].style.display = "block";
+                          console.log("clicked");
+                    }}>
+                        <p>View More</p>
+                    </button>
                 </Container>
             </div>
         </div>
