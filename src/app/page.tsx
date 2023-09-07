@@ -4,9 +4,6 @@ import React from "react";
 import { useState } from "react";
 import ReactHtmlParser from 'react-html-parser';
 
-import Image from 'next/image';
-
-import three_dots from "./images/three dots.png";
 
 const schoolurl: string = "https://perthmodern-wa.compass.education/";
 
@@ -229,7 +226,7 @@ export default function Home() {
 
 
   function applySettings(_settings: any) {
-      
+
   }
 
     function setSettingsInStorage(_settings: any) {

@@ -1,0 +1,92 @@
+/* hide scrollbar but allow scrolling */
+body {
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    overflow-y: scroll;
+}
+
+body::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
+
+
+body {
+  background-color: #232728;
+
+
+  color: white;
+}
+
+.container {
+
+  background-color: #525050;
+
+
+}
+
+
+.vertical-nav {
+
+  background-color: #525050;
+}
+
+
+
+.nav-button {
+
+  background-color: #6b6a6a;
+}
+
+.class {
+
+  background-color: #7b7676;
+}
+
+
+
+
+.view-more {
+
+  background-color: #7d7b7b;
+
+  color: white;
+
+}
+
+.task-button {
+  background-color: #7d7b7b;
+  color: white;
+}
+
+.popup {
+    background-color: rgb(132, 128, 128);
+}
+
+.popup-vertical {
+  background-color: rgb(132, 128, 128);
+}
+
+.download-button {
+  background-color: #7d7b7b;
+}
+
+.download-button:hover {
+  background-color: #6b6a6a;
+}
+
+
+select {
+    background-color: #7d7b7b;
+}
+
+select:hover {
+  background-color: #6b6a6a;
+}
+
+option {
+    background-color: #7d7b7b;
+}
+
+option:hover {
+  background-color: #6b6a6a;
+}
