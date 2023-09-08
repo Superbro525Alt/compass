@@ -182,7 +182,6 @@ var DEFAULT_SETTINGS = [
 ]
 
 function Setting(props: any) {
-    console.log(props)
     return <>
         <div className="setting">
             <div className="setting-header">
@@ -226,7 +225,34 @@ export default function Home() {
 
 
   function applySettings(_settings: any) {
-
+    // settings[0] == theme
+    if (_settings[0].value == "dark") {
+        // load the dark.scss style
+        try {
+            document.getElementById("theme-stylesheet").remove();
+        } catch (e) {
+            console.log(e);
+        }
+        var link = document.createElement("link");
+        link.href = "./_next/chunks/rsc/src_styles_dark_scss.css?v=1694140538113";
+        link.type = "text/css";
+        link.rel = "stylesheet";
+        link.id = "theme-stylesheet";
+        document.getElementsByTagName("head")[0].appendChild(link);
+    } else if (_settings[0].value == "light") {
+        // load the light.scss style
+        try {
+            document.getElementById("theme-stylesheet").remove();
+        } catch (e) {
+            console.log(e);
+        }
+        var link = document.createElement("link");
+        link.href = "./_next/chunks/rsc/src_styles_light_scss.css?v=1694140538113";
+        link.type = "text/css";
+        link.rel = "stylesheet";
+        link.id = "theme-stylesheet";
+        document.getElementsByTagName("head")[0].appendChild(link);
+    }
   }
 
     function setSettingsInStorage(_settings: any) {
