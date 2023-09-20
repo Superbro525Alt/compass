@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@types/node':
-    specifier: 20.6.2
-    version: 20.6.2
+    specifier: 20.6.3
+    version: 20.6.3
   '@types/react':
     specifier: 18.2.22
     version: 18.2.22
@@ -22,7 +22,7 @@ dependencies:
     version: 13.5.1(eslint@8.49.0)(typescript@5.2.2)
   next:
     specifier: 13.5.1
-    version: 13.5.1(react-dom@18.2.0)(react@18.2.0)(sass@1.66.1)
+    version: 13.5.1(react-dom@18.2.0)(react@18.2.0)(sass@1.67.0)
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -236,8 +236,8 @@ packages:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: false
 
-  /@types/node@20.6.2:
-    resolution: {integrity: sha512-Y+/1vGBHV/cYk6OI1Na/LHzwnlNCAfU3ZNGrc1LdRe/LAIbdDPTTv/HU3M7yXN448aTVDq3eKRm2cg7iKLb8gw==}
+  /@types/node@20.6.3:
+    resolution: {integrity: sha512-HksnYH4Ljr4VQgEy2lTStbCKv/P590tmPe5HqOnv9Gprffgv5WXAY+Y5Gqniu0GGqeTCUdBnzC3QSrzPkBkAMA==}
     dev: false
 
   /@types/prop-types@15.7.5:
@@ -1664,7 +1664,7 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: false
 
-  /next@13.5.1(react-dom@18.2.0)(react@18.2.0)(sass@1.66.1):
+  /next@13.5.1(react-dom@18.2.0)(react@18.2.0)(sass@1.67.0):
     resolution: {integrity: sha512-GIudNR7ggGUZoIL79mSZcxbXK9f5pwAIPZxEM8+j2yLqv5RODg4TkmUlaKSYVqE1bPQueamXSqdC3j7axiTSEg==}
     engines: {node: '>=16.14.0'}
     hasBin: true
